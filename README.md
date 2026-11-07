@@ -14,3 +14,15 @@ The CSV has one row per saved prediction. Gold and ranked tool indices are space
 6650e3ebfac56c813426b6d051b376f2435c2826c72f4b6406e56c1343ca0d22  replay_main_tables_from_csv.py
 
 The separate figure CSV contains the plotted values for the paired exposure and adaptation performance figure. It is not required by the table replay.
+
+## Supplementary analyses (7 November 2026)
+
+The [supplementary information](supplementary-information--2026-11-07--v01.md) includes the original sensitivity tables, all 53 post hoc evaluation-block deletions, and implementation details. The new analysis removes one four-request evaluation block at a time from saved predictions; it does not refit models or supply an independent population or confidence interval. All deletions preserve the aggregate contrast signs, but four of 21 confirmation deletions fail the original two-percentage-point absent-condition margin. This unfavorable sensitivity is retained.
+
+Download the two files in `block-sensitivity/` alongside the original rankings CSV. From the repository root, run:
+
+```sh
+python3 -I -S -B block-sensitivity/replay_block_sensitivity.py supporting-rankings-for-main-table-replay--2026-11-04--v01.csv block-sensitivity/request-to-cycle--2026-11-07--v01.csv --output new-block-results.json
+```
+
+The script checks both input hashes and refuses to overwrite an existing output. The request mapping contains only benchmark request IDs and cycle IDs; it includes no request text or contact information. All results use the same two constructed ToolBenchG3 populations. The supplementary material is a research artifact, not a notice of journal acceptance.
