@@ -266,13 +266,13 @@ The frozen retriever ranks tools by query–tool cosine similarity. BM25 [14] us
 
 The one-nearest-neighbor (1NN) control searches only the current arm's 512 training-query vectors. It places tools referenced by the highest-cosine training query first, ordered by frozen query–tool similarity, then appends the remaining tools in frozen order. Ties follow the fixed training order and numeric catalogue order. Evaluation reference sets are used for scoring after retrieval, and are not supplied to this control.
 
-### 3.5 Linear query adapter
+### S11.2.1 Linear query adapter
 
 The linear recipe learns a 1,024 × 1,024 matrix W, initialized to the identity. A request vector is transformed by W and normalized; tool vectors remain fixed. Training uses normalized multi-reference cross-entropy over the complete 1,419-tool catalogue, with temperature 0.05. Each positive tool receives target mass 1/|R(q)|.
 
 A fixed geometry term penalizes changes in within-query score differences. If Z and Z0 are the adapted and frozen score matrices, respectively, subtract each row's mean to obtain Zc and Z0c. The penalty is MSE(Zc,Z0c)/mean(Z0c²), weighted by 0.1. These settings were retained from development rather than selected on the formal assignments. Adam uses learning rate 0.001, a full batch of 512 examples, seed 17 and 200 updates. This recipe is a controlled linear adapter; the multi-reference target is related to the distributional construction in COLT [3], while the complete objective and architecture differ from COLT's graph stage.
 
-### 3.6 COLT collaborative-stage adaptation
+### S11.2.2 COLT collaborative-stage adaptation
 
 The graph recipe follows the reviewed collaborative-stage operations in the fixed COLT implementation [3]. It is initialized with the same frozen query and tool vectors. Its trainable parameters are the current arm's query table Q0 and catalogue table T0. Training scenes are identified by canonical full reference sets. The initial scene tensor S0 is computed once from the original scene–tool mean-pooling matrix and T0; following the source implementation, its values remain fixed while its retained gradient path reaches T0. It is not a separate trainable scene table.
 
